@@ -1,4 +1,5 @@
 using NP.Models;
+using NP.DTOs.StudentClass;
 namespace NP.Services
 {
     public interface IStudentServices
@@ -11,5 +12,11 @@ namespace NP.Services
          Task<Student> Update(int id,Student req);
 
          Task<Student> Delete(int id);
+
+         Task<Student> AddClass(AddStudentClassDTO req);
+
+         Task<Student> GetClass(int id);
+
+         Task<Student> RemoveClass(RemoveStudentClassDTO req);
     }
 }

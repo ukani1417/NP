@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using NP.Data;
 using NP.Services;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,10 +16,16 @@ builder.Services.AddDbContext<DataContext>(options =>{
     options.UseSqlServer(builder.Configuration.GetConnectionString("App2"));
 }
 );
+
+builder.Services.AddControllers().AddJsonOptions(x =>
+                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+
+
 #region Services_Register
     builder.Services.AddScoped<IStudentServices,StudentServices>();
     builder.Services.AddScoped<IClassServices,ClassServices>();
 #endregion
+
 
 
 var app = builder.Build();

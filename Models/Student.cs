@@ -5,5 +5,7 @@ namespace NP.Models
         public int Id { get; set; }
         public string Name { get; set; }  = string.Empty;
 
+        public List<Class> Classes { get; set; }
+
     }
 }

@@ -6,10 +6,11 @@ namespace NP.Services
     public class ClassServices : IClassServices
     {
         private readonly DataContext _dataContext ;
-
-        public ClassServices(DataContext dataContext)
+        private readonly IStudentServices _studentServices;
+        public ClassServices(DataContext dataContext,IStudentServices studentServices)
         {
             this._dataContext = dataContext;
+            this._studentServices = studentServices;
         }
         public async Task<Class> Add(Class req)
         {
@@ -22,6 +23,8 @@ namespace NP.Services
             var res =  await _dataContext.Classes.FindAsync(req.Id); 
             return res;
         }
+
+       
 
         public async  Task<Class> Delete(int id)
         {

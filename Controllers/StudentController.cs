@@ -3,6 +3,8 @@ using NP.Models;
 using NP.Services;
 using NP.DTOs.Student;
 using AutoMapper;
+using NP.DTOs.StudentClass;
+
 namespace NP.Controllers
 {
     [Route("api/[controller]")]
@@ -12,12 +14,14 @@ namespace NP.Controllers
         
 
         private readonly IStudentServices _studentservices;
+        private readonly IClassServices _classServices;
         private readonly IMapper _mapper;
 
-        public StudentController(IStudentServices studentservices,IMapper mapper)
+        public StudentController(IStudentServices studentservices,IMapper mapper,IClassServices classServices)
         {
             this._studentservices = studentservices;
             this._mapper = mapper;
+            this._classServices = classServices;
         }
 
         [HttpGet]
@@ -73,5 +77,54 @@ namespace NP.Controllers
             var resDTO = _mapper.Map<StudentDTO>(res);
             return Ok(resDTO);
         }
+
+        [HttpPost]
+        [Route("AddClass")]
+        public async Task<IActionResult> AddClass([FromBody] AddStudentClassDTO req){
+            var student = await _studentservices.Get(req.StudentId);
+            var classobj = await _classServices.Get(req.ClassId);
+
+            if(student == null){
+                return NotFound("Student is not exists");
+            }           
+            if(classobj == null){
+                return NotFound("Class is not exists");
+            }
+            var res = await _studentservices.AddClass(req);
+            if(res == null){
+                return BadRequest(ModelState);
+            }
+            return Ok(res);
+        }
+
+        [HttpGet("getclass/{id}")]
+       
+        public async Task<IActionResult> GetClass(int id){
+            var res = await _studentservices.GetClass(id);
+            if(res == null){
+                return NotFound("Student Id is invalid");
+            }
+            return Ok(res);
+        }
+
+        [HttpDelete("Removeclass")]
+        public async Task<IActionResult> RemoveClass([FromBody]RemoveStudentClassDTO req){
+            var student = await _studentservices.Get(req.StudentId);
+            var classobj = await _classServices.Get(req.ClassId);
+
+            if(student == null){
+                return NotFound("Student is not exists");
+            }           
+            if(classobj == null){
+                return NotFound("Class is not exists");
+            }
+
+            var res = await _studentservices.RemoveClass(req);
+            if(res == null){
+                return NotFound("Student is not registred in that class");
+            }
+            return Ok(res);
+        }
     }
+
 }
