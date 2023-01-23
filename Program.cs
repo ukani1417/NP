@@ -24,6 +24,8 @@ builder.Services.AddControllers().AddJsonOptions(x =>
 #region Services_Register
     builder.Services.AddScoped<IStudentServices,StudentServices>();
     builder.Services.AddScoped<IClassServices,ClassServices>();
+    builder.Services.AddScoped<ISubjectServices,SubjectSevices>();
+    builder.Services.AddScoped<ITestServices,TestServices>();
 #endregion
 
 

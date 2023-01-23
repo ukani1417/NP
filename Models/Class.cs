@@ -6,5 +6,9 @@ namespace NP.Models
         public int Number {get;set;}
 
         public List<Student> Students { get; set; }
+
+        public List<Subject> Subjects { get; set;}
+
+    
     }
 }
